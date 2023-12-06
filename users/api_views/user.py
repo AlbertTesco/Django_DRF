@@ -15,6 +15,11 @@ class UserViewSet(viewsets.ViewSet):
         serializer = UserSerializer(user, data=request.data)
 
         if serializer.is_valid():
-            serializer.save()  # Сохраняем обновленные данные пользователя
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request):
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

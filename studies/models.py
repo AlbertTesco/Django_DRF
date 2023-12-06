@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -20,7 +22,7 @@ class Course(models.Model):
 class Lesson(models.Model):
     """Модель урока курса"""
 
-    course = models.ForeignKey(Course, related_name='course', on_delete=models.CASCADE, **NULLABLE, verbose_name='Курс')
+    course = models.ForeignKey(Course, related_name='lesson', on_delete=models.CASCADE, **NULLABLE, verbose_name='Курс')
 
     name = models.CharField(max_length=100, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
