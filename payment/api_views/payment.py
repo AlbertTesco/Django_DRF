@@ -4,6 +4,7 @@ from rest_framework.filters import OrderingFilter
 
 from payment.models import Payment
 from payment.serializers import PaymentSerializer
+from studies.permissions import IsModerator, IsModerOrOwner
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
@@ -12,3 +13,4 @@ class PaymentViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ('course', 'lesson', 'payment_method',)
     ordering_fields = ('payment_date',)
+    permission_classes = [IsModerator, IsModerOrOwner]

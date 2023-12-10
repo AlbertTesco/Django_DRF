@@ -8,7 +8,7 @@ from studies.apps import StudiesConfig
 app_name = StudiesConfig.name
 
 router = DefaultRouter()
-router.register(r'courses', CourseViewSet, basename='courses')
+router.register(r'courses', CourseViewSet, basename='сourse')
 
 urlpatterns = [
                   path('lesson/create/', LessonCreateAPIView.as_view(), name='lesson-create'),
