@@ -1,14 +1,14 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
 
 from studies.models import Lesson
+from studies.paginators import StudiesPaginator
 from studies.permissions import IsModerator, IsModerOrOwner
 from studies.serializers import LessonSerializer
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
     """Create a Lesson"""
-    permission_classes = [IsModerator, IsModerOrOwner]
+    permission_classes = [IsModerator]
     serializer_class = LessonSerializer
 
 
@@ -17,6 +17,7 @@ class LessonListAPIView(generics.ListAPIView):
     permission_classes = [IsModerator, IsModerOrOwner]
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+    pagination_class = StudiesPaginator
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):

@@ -1,5 +1,6 @@
 from django.db import models
 
+from config import settings
 from users.models import User
 
 NULLABLE = {'blank': True, 'null': True}
@@ -30,7 +31,7 @@ class Lesson(models.Model):
     description = models.TextField(verbose_name='Описание')
     preview = models.ImageField(upload_to='course_previews/', verbose_name='Превью', **NULLABLE)
     link_to_video = models.CharField(max_length=250, verbose_name='Ссылка на видео')
-    owner = models.ForeignKey(User, related_name='owned_lessons', verbose_name='Владелец', **NULLABLE,
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='owned_lessons', verbose_name='Владелец', **NULLABLE,
                               on_delete=models.CASCADE)
 
     def __str__(self):
@@ -39,3 +40,13 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = 'Урок'
         verbose_name_plural = 'Уроки'
+
+
+class Subscription(models.Model):
+    """Модель подписки"""
+    user = models.ForeignKey(User, related_name='subscriptions', on_delete=models.CASCADE, verbose_name='Пользователь')
+    course = models.ForeignKey(Course, related_name='subscribers', on_delete=models.CASCADE, verbose_name='Курс')
+    subscribed = models.BooleanField(default=False, verbose_name='Подписка')
+
+    class Meta:
+        unique_together = ('user', 'course')
